@@ -3,12 +3,12 @@ blueprint:
   description: Open garage door when car connects to Wi-Fi
   domain: automation
   input:
-    switch:
-      name: Switch
+    light:
+      name: Light
       description: "This is the switch the presence detection will trigger"
       selector:
         entity:
-          domain: switch
+          domain: light
     car_presence:
       name: Car Presence
       description: "This switch is the car's connection to the MQTT broker"
@@ -33,19 +33,19 @@ action:
             entity_id: !input car_presence
             state: 'on'
           - condition: state
-            entity_id: !input switch
-            state: switch.turn_off
+            entity_id: !input light
+            state: light.turn_off
         sequence:
-          - service: switch.turn_on
-            entity_id: !input switch
+          - service: light.turn_on
+            entity_id: !input light
       - conditions:
           - condition: state
             entity_id: !input car_presence
             state: 'unavailable'
           - condition: state
-            entity_id: !input switch
-            state: switch.turn_on
+            entity_id: !input light
+            state: light.turn_on
         sequence:
-          - service: switch.turn_off
-            entity_id: !input switch
+          - service: light.turn_off
+            entity_id: !input light
     default: []
