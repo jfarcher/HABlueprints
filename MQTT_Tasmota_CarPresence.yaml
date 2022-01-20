@@ -1,0 +1,51 @@
+blueprint:
+  name: MQTT_Tasmota_CarPresence
+  description: Open garage door when car connects to Wi-Fi
+  domain: automation
+  input:
+    switch:
+      name: Switch
+      description: "This is the switch the presence detection will trigger"
+      selector:
+        entity:
+          domain: switch
+    car_presence:
+      name: Car Presence
+      description: "This switch is the car's connection to the MQTT broker"
+      selector:
+        entity:
+          domain: switch
+mode: single
+trigger:
+  - platform: state
+    entity_id: !input car_presence
+    to: 'on'
+  - platform: state
+    entity_id: !input car_presence
+    to: 'unavailable'
+    for:
+      minutes: 1
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: !input car_presence
+            state: 'on'
+          - condition: state
+            entity_id: !input switch
+            state: switch.turn_off
+        sequence:
+          - service: switch.turn_on
+            entity_id: !input switch
+      - conditions:
+          - condition: state
+            entity_id: !input car_presence
+            state: 'unavailable'
+          - condition: state
+            entity_id: !input switch
+            state: switch.turn_on
+        sequence:
+          - service: switch.turn_off
+            entity_id: !input switch
+    default: []
