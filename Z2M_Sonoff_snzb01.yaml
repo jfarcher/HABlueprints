@@ -49,9 +49,9 @@ action:
       - conditions: 
         - "{{ command == 'single' }}"
         sequence: !input "single_press"
-    - conditions: 
+      - conditions: 
         - "{{ command == 'double' }}"
         sequence: !input "double_press"
-    - conditions: 
+      - conditions: 
         - "{{ command == 'long' }}"
         sequence: !input "long_press"
