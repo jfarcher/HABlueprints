@@ -39,7 +39,6 @@ variables:
 trigger:
 - platform: mqtt
   topic: zigbee2mqtt/+/action
-
 action:
 - choose:
   - conditions: '{{ topic.split(''/'')[1].replace(''/'', '''') == deviceName.split('' '')[0]}}'
