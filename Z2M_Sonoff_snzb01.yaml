@@ -42,8 +42,7 @@ trigger:
 
 action:
 - choose:
-  - conditions: '{{ topic.split(''/'')[1].replace(''/'', '''') == deviceName.split('' '')[0]
-      }}'
+  - conditions: '{{ topic.split(''/'')[1].replace(''/'', '''') == deviceName.split('' '')[0]}}'
     sequence:
     - choose:
       - conditions: 
